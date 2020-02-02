@@ -45,6 +45,20 @@ class Utils {
     get();
   }
 
+
+  static getProdutoById(el, id = null) {
+    // el.getItemById(id);
+    let code = el.querySelector('.item-id').value;
+    async function getItem() {
+      location.href = `/produtos/${code}`;
+      let promise = await fetch(`/cestas/${code}`);
+      if (!promise.ok) {
+        throw new Error('Erro');
+      }
+    }
+    getItem();
+  }
+
   static atualizarQtdItensNoCarrinho() {
     let qtdItensNoCarrinho = document.querySelector('#cart-value');
     if (localStorage.getItem('itensDoCarrinho') != null) {

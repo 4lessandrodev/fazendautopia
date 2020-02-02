@@ -128,6 +128,21 @@ VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
         }
       });
     });
+  },
+
+  getProdutoPorId(id) {
+    return new Promise((resolve, reject) => {
+      conn.query(`SELECT * FROM tb_produtos AS produto WHERE produto.idProd = ?;
+      `, [
+        id
+      ], (err, results) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(results);
+        }
+      });
+    });
   }
 
 };

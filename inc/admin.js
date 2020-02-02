@@ -9,7 +9,7 @@ module.exports = {
         (SELECT 
           COUNT(*)
           FROM 
-            tb_pedidosprovisorio) AS nrpedidos,
+            tb_pedidosProvisorio) AS nrpedidos,
         (SELECT 
           COUNT(*)
           FROM 

@@ -5,8 +5,7 @@
         <div class="col-md-6 animate-box">
           <h3>Cesta Selecionada</h3>
           <%- include('./alerts') -%>
-          <form action="/contact" method="POST" id="form-contact">
-
+          <form action="/salvar-item-cesta" method="POST" id="form-salvar-cesta">
             <div class="row">
               <div class="col-lg-10 col-md-10 col-sm-10" data-row="<%= JSON.stringify(cesta)%>">
                 <a href="../<%=cesta.imageCesta%>" class="fh5co-card-item image-popup">
@@ -24,6 +23,7 @@
                     <input type="hidden" value="<%=cesta.idCesta%>" name="mainCode" class="item">
                     <input type="hidden" value="<%=cesta.descriptionCesta%>" name="mainDescription" class="item">
                     <input type="hidden" value="<%=cesta.salesPriceCesta%>" name="priceTotal" class="item">
+                    <input type="hidden" value="" name="itens" class="item">
                     <p><i><%=cesta.descriptionCesta%> - <%=cesta.qtdItensCesta%> itens </i></p>
                     <p><%=cesta.nutrInfoCesta%></p>
                     <p>

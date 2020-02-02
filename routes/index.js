@@ -52,7 +52,8 @@ router.get('/cestas/:id', function (req, res, next) {
         title: 'Personalizar',
         home: true,
         cesta,
-        produtos
+        produtos,
+        rotulo: 'Personalizar Cesta'
       }).catch(err => {
         res.send(err);
       });
@@ -72,7 +73,8 @@ router.post('/cestas/:id', function (req, res, next) {
         title: 'Personalizar',
         home: true,
         cesta,
-        produtos
+        produtos,
+        rotulo: 'Personalizar Cesta'
       }).catch(err => {
         res.send(err);
       });
@@ -83,8 +85,29 @@ router.post('/cestas/:id', function (req, res, next) {
     res.send(err);
   });
 });
+//-------------------------------------------------
 
+//-----------------CAPTURAR PRODUTO CLICADO------------
 
+router.get('/produtos/:id', function (req, res, next) {
+  produtos.getProdutoPorId(req.params.id).then(retorno => {
+    let produto = retorno[0];
+    res.render('personalizar-produtos', {
+      title: 'Personalizar',
+      home: true,
+      produto,
+      rotulo: 'Produto Extra'
+    }).catch(err => {
+      res.send(err);
+    });
+  }).catch(err => {
+    res.send(err);
+  });
+});
+
+router.post('/produtos/:id', function (req, res, next) {
+
+});
 //-------------------------------------------------
 
 router.post('/', function (req, res, next) {
@@ -191,7 +214,7 @@ router.get('/carrinho', function (req, res, next) {
 router.post('/personalizar', function (req, res, next) {
   contact.saveContact(req.body.name, req.body.email, req.body.message).then(retorno => {
     req.body = {};
-    contact.render(req, res, null, 'Item adicionado com sucesso');
+    contact.render(req, res, null, 'Email adicionado com sucesso');
   }).catch(err => {
     contact.render(req, res, err.message, null);
   });
@@ -199,7 +222,6 @@ router.post('/personalizar', function (req, res, next) {
 //------------------------------------------------------
 
 //---------------------PEDIDO PROVISORIO----------------
-
 
 router.post('/pedido-provisorio', function (req, res, next) {
   pedidosProvisorio.save(req.fields).then(retorno => {

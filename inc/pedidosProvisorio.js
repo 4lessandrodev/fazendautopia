@@ -3,8 +3,6 @@ var conn = require('./db');
 module.exports = {
 
   save(fields) {
-
-
     let query, params = [fields.cliente, fields.observacoes, fields.total, fields.mainDescription];
 
     let code = parseInt(fields.id);

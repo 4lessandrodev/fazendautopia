@@ -255,6 +255,43 @@ app.use(function (req, res, next) {
 //-------------------METODO POST PARA SALVAR PEDIDO----------------------------
 
 
+//-------------------METODO POST PARA SALVAR ITENS DO PEDIDO----------------------------
+app.use(function (req, res, next) {
+  if (req.url == '/salvar-item-cesta' && req.method.toLowerCase() === 'post') {
+    var form = formidable.IncomingForm({
+
+    });
+    form.parse(req, function (err, fields, files) {
+      req.body = fields;
+      req.fields = fields;
+      req.files = files;
+      next();
+    });
+  } else {
+    next();
+  }
+});
+//-------------------METODO POST PARA SALVAR ITENS DO PEDIDO----------------------------
+
+//-------------------METODO POST PARA SALVAR ITENS DO PEDIDO----------------------------
+app.use(function (req, res, next) {
+  if (req.url == '/salvar-item-produto' && req.method.toLowerCase() === 'post') {
+    var form = formidable.IncomingForm({
+
+    });
+    form.parse(req, function (err, fields, files) {
+      req.body = fields;
+      req.fields = fields;
+      req.files = files;
+      next();
+    });
+  } else {
+    next();
+  }
+});
+//-------------------METODO POST PARA SALVAR ITENS DO PEDIDO----------------------------
+
+
 //-------------------METODO POST PARA SALVAR PEDIDO----------------------------
 app.use(function (req, res, next) {
   if (req.url == '/pedido-provisorio' && req.method.toLowerCase() === 'post') {
@@ -296,7 +333,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(session({
-  secret: '*******',
+  secret: 'utopia farm',
   // create new redis store.
   store: new redisStore({ host: 'localhost', port: 6379, client: client, ttl: 260 }),
   saveUninitialized: true,
