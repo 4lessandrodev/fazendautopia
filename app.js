@@ -17,9 +17,7 @@ var adminRouter = require('./routes/admin');
 var app = express();
 
 http.createServer(function (req, res, next) {
-  res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.send('Servidor conectado');
-  next();
+
 }).listen(process.env.PORT_APP);
 
 app.use(function (req, res, next) {
