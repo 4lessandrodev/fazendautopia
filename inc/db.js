@@ -1,6 +1,6 @@
 const mysql = require('mysql2');
 
-/*
+
 //fonte https://www.npmjs.com/package/mysql2
 const connection = mysql.createConnection({
   host: 'mysql17-farm76.kinghost.net',
@@ -10,10 +10,10 @@ const connection = mysql.createConnection({
 });
 
 module.exports = connection;
-*/
 
 
-///*
+
+/*
 //fonte https://www.npmjs.com/package/mysql2
 const connection = mysql.createConnection({
   host: 'localhost',
@@ -22,4 +22,4 @@ const connection = mysql.createConnection({
   password: 'admin'
 });
 module.exports = connection;
-//*/
+*/
