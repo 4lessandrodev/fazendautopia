@@ -12,7 +12,6 @@ const connection = mysql.createConnection({
 module.exports = connection;
 
 
-
 /*
 //fonte https://www.npmjs.com/package/mysql2
 const connection = mysql.createConnection({
