@@ -16,9 +16,12 @@ var adminRouter = require('./routes/admin');
 
 var app = express();
 
-http.createServer(function (req, res, next) {
+app.listen = function () {
+  var server = http.createServer(this);
+  return server.listen.apply(server, arguments);
+};
 
-}).listen(process.env.PORT_APP);
+app.listen(21183);
 
 app.use(function (req, res, next) {
 
@@ -338,9 +341,9 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(session({
-  secret: 'utopia farm',
+  secret: 'utopia_farm',
   // create new redis store.
-  store: new redisStore({ host: 'localhost', port: 6379, client: client, ttl: 260 }),
+  store: new redisStore({ host: 'fazendautopia.com', port: 6379, client: client, ttl: 260 }),
   saveUninitialized: true,
   resave: true
 }));
