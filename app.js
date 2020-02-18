@@ -6,15 +6,20 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var redis = require("redis");
 var session = require('express-session');
-var redisStore = require('connect-redis')(session);
 var formidable = require('formidable');
 var path = require('path');
-var client = redis.createClient();
+
+var app = express();
 
 var indexRouter = require('./routes/index');
 var adminRouter = require('./routes/admin');
 
-var app = express();
+app.use(session({
+  // create new redis store.
+  secret: 'utopia_farm',
+  saveUninitialized: false,
+  resave: false
+}));
 
 app.listen = function () {
   var server = http.createServer(this);
@@ -340,14 +345,6 @@ app.use(function (req, res, next) {
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use(session({
-  secret: 'utopia_farm',
-  // create new redis store.
-  store: new redisStore({ host: 'fazendautopia.com', port: 6379, client: client, ttl: 260 }),
-  saveUninitialized: true,
-  resave: true
-}));
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -367,7 +364,7 @@ app.use(function (req, res, next) {
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.locals.error = req.app.get('env') === 'production' ? err : {};
 
   // render the error page
   res.status(err.status || 500);
