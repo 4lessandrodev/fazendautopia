@@ -12,9 +12,10 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  produtos.getProdutosAtivos().then(produtos => {
+  produtos.getProdutosEspeciais().then(produtos => {
     cestas.getCestasAtivas().then(cestas => {
       res.render('index', {
+
         title: 'Home',
         home: true,
         produtos,
@@ -106,9 +107,7 @@ router.get('/produtos/:id', function (req, res, next) {
   });
 });
 
-router.post('/produtos/:id', function (req, res, next) {
 
-});
 //-------------------------------------------------
 
 router.post('/', function (req, res, next) {
@@ -261,6 +260,11 @@ router.post('/login', function (req, res, next) {
     clientUser.login(req.body.email, req.body.password).then(user => {
 
       req.session.user = user;
+      //Definir a data de expiração da sessão 
+      var oneWeek = 7 * 24 * 3600 * 1000;
+      req.session.cookie.expires = new Date(Date.now() + oneWeek);
+      req.session.cookie.maxAge = oneWeek;
+
       res.redirect('/');
 
     }).catch(err => {

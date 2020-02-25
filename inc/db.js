@@ -16,9 +16,9 @@ module.exports = connection;
 //fonte https://www.npmjs.com/package/mysql2
 const connection = mysql.createConnection({
   host: 'localhost',
-  user: 'root',
-  database: 'fazendautopia',
-  password: 'admin'
+  user: 'fazendautopia',
+  database: 'bdutopia',
+  password: 'fazendautopia'
 });
 module.exports = connection;
 */

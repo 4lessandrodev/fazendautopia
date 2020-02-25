@@ -4,7 +4,6 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var redis = require("redis");
 var session = require('express-session');
 var formidable = require('formidable');
 var path = require('path');
@@ -21,6 +20,7 @@ app.use(session({
   resave: false
 }));
 
+
 app.listen = function () {
   var server = http.createServer(this);
   return server.listen.apply(server, arguments);
@@ -31,6 +31,31 @@ app.listen(21183);
 app.use(function (req, res, next) {
 
   if (req.url == '/admin/cestas' && req.method.toLowerCase() === 'post' || req.url == '/admin/produtos' && req.method.toLowerCase() === 'post') {
+
+    var form = formidable.IncomingForm({
+      uploadDir: path.join(__dirname, "/public/images/uploads"),
+      keepExtensions: true
+    });
+
+    form.parse(req, function (err, fields, files) {
+
+      req.body = fields;
+      req.fields = fields;
+      req.files = files;
+
+      next();
+
+    });
+  } else {
+    next();
+  }
+
+});
+
+
+app.use(function (req, res, next) {
+
+  if (req.url == '/admin/produtos' && req.method.toLowerCase() === 'post') {
 
     var form = formidable.IncomingForm({
       uploadDir: path.join(__dirname, "/public/images/uploads"),

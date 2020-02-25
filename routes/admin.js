@@ -11,7 +11,6 @@ var frete = require('../inc/fretes.js');
 var produtos = require('../inc/produtos.js');
 var cestas = require('../inc/cestas.js');
 var emails = require('../inc/inscricao.js');
-var clientUser = require('./../inc/clientUser');
 var pedidosProvisorio = require('./../inc/pedidosProvisorio');
 var router = express.Router();
 
@@ -37,7 +36,7 @@ router.get('/', function (req, res, next) {
         navbar: false
       }));
     }).catch(err => {
-      console.log(err);
+      res.send(err);
     });
   }
 });
@@ -50,6 +49,12 @@ router.post('/login', function (req, res, next) {
   } else {
     users.login(req.body.email, req.body.password).then(user => {
       req.session.user = user;
+
+      //Definir a data de expiração da sessão 
+      var oneWeek = 7 * 24 * 3600 * 1000;
+      req.session.cookie.expires = new Date(Date.now() + oneWeek);
+      req.session.cookie.maxAge = oneWeek;
+
       if (req.session.user.enabled == 1) {
         res.redirect('/admin');
       }
@@ -360,7 +365,6 @@ router.get('/produtos', function (req, res, next) {
 
 //Salvar ou editar um produto 
 router.post('/produtos', function (req, res, next) {
-
   //Verificar se é uma edição 
   if (!isNaN(parseInt(req.fields.idProd))) {
     let fornecedor_key = parseInt(req.fields.fornecedor_key);
@@ -383,12 +387,13 @@ router.post('/produtos', function (req, res, next) {
     }).catch(err => {
       res.send(err);
     });
-
+    res.send();
+    next();
   } else {
     //Salvar um novo produto
     fornecedores.saveFornecedoresKey().then(fornecedorKey => {
       fornecedores.getLastFornecedorKey().then(idFornecedorKey => {
-        let codFornecedores = JSON.parse(req.fields.array);
+        let codFornecedores = req.fields.array;
         for (let fornecedor of codFornecedores) {
           fornecedor = parseInt(fornecedor);
           if (!isNaN(fornecedor)) {
@@ -408,6 +413,8 @@ router.post('/produtos', function (req, res, next) {
       res.send(err);
     });
   }
+  res.end();
+  next();
 });
 
 router.delete('/produtos/:id', function (req, res, next) {
@@ -424,6 +431,7 @@ router.post('/produtos/:id', function (req, res, next) {
   }).catch(err => {
     res.send(err);
   });
+  res.end();
 });
 //------------------PRODUTOS -----------------
 
@@ -466,7 +474,7 @@ router.post('/cestas', function (req, res, next) {
   if (!isNaN(parseInt(req.fields.idCesta))) {
     let itens_key = parseInt(req.fields.item_key);
     cestas.deleteItemKey(itens_key).then(results => {
-      let codItens = JSON.parse(req.fields.array);
+      let codItens = req.fields.array;
       for (let item of codItens) {
         item = parseInt(item);
         if (!isNaN(item)) {
@@ -509,6 +517,7 @@ router.post('/cestas', function (req, res, next) {
       res.send(err);
     });
   }
+  res.end();
 });
 
 router.delete('/cestas/:id', function (req, res, next) {
@@ -525,6 +534,7 @@ router.post('/cestas/:id', function (req, res, next) {
   }).catch(err => {
     res.send(err);
   });
+  res.end();
 });
 //------------------CESTAS -----------------
 
